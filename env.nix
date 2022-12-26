@@ -4,7 +4,7 @@ in [
   pkgs.automake
   pkgs.autoconf
   pkgs.azure-cli
-  # pkgs.awk
+  pkgs.cachix
   pkgs.calc
   pkgs.curl
   pkgs.ctags
@@ -12,18 +12,19 @@ in [
   pkgs.docbook5
   pkgs.expat
   pkgs.fd
-  # pkgs.helm
   pkgs.gd
   pkgs.git
   pkgs.graphviz
   pkgs.grpc
   pkgs.grpcurl
+  pkgs.ihp-new
   pkgs.jansson
   pkgs.jq
-  pkgs.lua
+  pkgs.kubectl
+  # pkgs.lua
+  # pkgs.libvterm
   pkgs.maven
   pkgs.nginx
-  # pkgs.openapi-generator
   pkgs.pv
   pkgs.restic
   pkgs.ripgrep
