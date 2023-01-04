@@ -6,7 +6,7 @@
 # where revision is the full nixpkgs revision.
 
 # env.nix path
-ENV_NIX_PATH=$HOME/mydotconfig/env.nix
+ENV_NIX_PATH=$HOME/my-nix-config/env.nix
 
 set -euo pipefail
 
