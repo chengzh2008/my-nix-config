@@ -5,6 +5,9 @@
 # Usage: nix-diff [revision]
 # where revision is the full nixpkgs revision.
 
+# env.nix path
+ENV_NIX_PATH=$HOME/mydotconfig/env.nix
+
 set -euo pipefail
 
 declare -A cur
@@ -35,7 +38,7 @@ while read -r name version; do
     echo -e "\033[32mA ${name} ${version}\033[0m"
     ret=1
   fi
-done < <(query -af "${HOME}/mydotconfig/env.nix")
+done < <(query -af "${ENV_NIX_PATH}")
 
 for name in "${!cur[@]}"; do
   echo -e "\033[31mD ${name} ${cur[${name}]}\033[0m"
@@ -45,7 +48,7 @@ done
 if [[ ${ret} -ne 0 ]]; then
   # Disable SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
   # shellcheck disable=SC2016
-  echo 'Run `nix-env -irf ~/mydotconfig/env.nix` to make these changes'
+  echo 'Run `nix-env -irf "${ENV_NIX_PATH}"` to make these changes'
 fi
 
 exit "${ret}"
