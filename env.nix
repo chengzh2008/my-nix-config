@@ -1,6 +1,7 @@
 let pkgs = import <nixpkgs> {}; 
 in with pkgs; [
   azure-cli
+  awscli2
   cachix
   curl
   ctags
@@ -10,6 +11,7 @@ in with pkgs; [
   etcd_3_5
   fd
   gd
+  google-cloud-sdk
   git
   graphviz
   grpc
@@ -20,6 +22,8 @@ in with pkgs; [
   kubernetes-helm-wrapped
   maven
   nginx
+  nixFlakes
+  pandoc
   prometheus
   restic
   ripgrep
@@ -30,6 +34,5 @@ in with pkgs; [
   tree-sitter
   utf8proc
   wget
-  yarn
   zlib
 ]
