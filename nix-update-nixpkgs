@@ -56,4 +56,3 @@ else
 fi
 
 "$(dirname "$0")/nix-diff" "${revision}"
-# vim: set sw=2 sts=2 ts=8 et ft=bash:

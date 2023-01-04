@@ -1,4 +1,5 @@
-let pkgs = import <nixpkgs> {}; 
+let
+  pkgs = import <nixpkgs> {};
 in with pkgs; [
   azure-cli
   awscli2

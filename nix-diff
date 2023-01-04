@@ -52,5 +52,3 @@ if [[ ${ret} -ne 0 ]]; then
 fi
 
 exit "${ret}"
-
-# vim: set sw=2 sts=2 ts=8 et ft=bash:

@@ -1,0 +1,212 @@
+:DOC-CONFIG:
+#+startup: fold
+:END:
+
+#+title: Nix configuration
+#+author: chengzh2008
+
+This is my nix configuration. From this org file, all the necessary nix config files are generated. This config is greatly inspired by the [[https://checkoway.net/musings/nix/][blog post]]
+
+** Follow the normal nix [[https://nixos.org/download.html#nix-install-macos][installation for macosx]]
+** Nix config uses three files:
+
+- =env.nix= define what packages will be installed.
+- =nix-update-nixpkgs= define script for updating nixpkgs version.
+- =nix-diff= define script to see the changes between current and previous version.
+
+All the config files are generated from this Org file
+
+** Some fix/cleanup on macosx system
+*** After installing Nix, undo the modifications Nix made to the files in /etc.
+*** Ccreate a ~/.zshenv file with the following contents
+#+begin_src bash
+[[ -o login ]] && export PATH='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
+#+end_src
+*** Create a ~/.zprofile file containing all of the exported environment variables you want.
+#+begin_src bash
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+
+  # see blog: https://checkoway.net/musings/nix/
+  export NIX_PATH="$HOME/.nix-defexpr"
+
+fi
+# End Nix
+
+
+[[ -f "$HOME/.ghcup/env" ]] && source "$HOME/.ghcup/env"
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+#+end_src
+
+*** Put the per-shell configuration in ~/.zshrc. exported variables should be put in .zprofile
+*** Soft link the ~/.nix-defexpr/nixpkgs/default.nix to this [[file:./nixpkgs-default.nix][file]]
+
+* env.nix
+
+This code is written to the =env.nix= to include packages to install.
+
+#+begin_src nix :tangle env.nix
+let
+  pkgs = import <nixpkgs> {};
+in with pkgs; [
+  azure-cli
+  awscli2
+  cachix
+  curl
+  ctags
+  direnv
+  docbook5
+  expat
+  etcd_3_5
+  fd
+  gd
+  google-cloud-sdk
+  git
+  graphviz
+  grpc
+  grpcurl
+  ihp-new
+  jq
+  kubectl
+  kubernetes-helm-wrapped
+  maven
+  nginx
+  nixFlakes
+  pandoc
+  prometheus
+  restic
+  ripgrep
+  sourceHighlight
+  texinfo
+  tmux
+  tree
+  tree-sitter
+  utf8proc
+  wget
+  zlib
+]
+#+end_src
+
+* nix-update-nixpkgs
+this code is written to nix-update-nixpkgs
+#+begin_src bash :tangle nix-update-nixpkgs
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p bash curl jq
+# shellcheck shell=bash
+
+# Just go with the revision that works for stable darwin. Might as well for now
+# unless there's an issue.
+
+set -euo pipefail
+
+dryrun=0
+
+usage() {
+  cat <<USAGEEOF
+Usage: $0 [OPTIONS]
+
+Options:
+  -h  --help      show this help
+  -n  --dry-run   do not make any changes
+USAGEEOF
+}
+
+for arg in "$@"; do
+  case ${arg} in
+    '-n' | '--dry-run')
+      dryrun=1
+      ;;
+    '-h' | '--help')
+      usage
+      exit 0
+      ;;
+    *)
+      echo "$0: Unexpected argument: ${arg}" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+
+revision=$(curl --silent --show-error 'https://monitoring.nixos.org/prometheus/api/v1/query?query=channel_revision' \
+  | jq -r '.data.result[]|select(.metric.status == "stable" and .metric.variant == "darwin").metric.revision')
+nixexpr="import (fetchTarball \"https://github.com/NixOS/nixpkgs/archive/${revision}.tar.gz\")"
+nixpkgsfile=~/.nix-defexpr/nixpkgs/default.nix
+
+mkdir -p "$(dirname "${nixpkgsfile}")"
+if [[ -f "${nixpkgsfile}" ]] && diff -q "${nixpkgsfile}" - <<< "${nixexpr}" >/dev/null; then
+  echo 'nixpkgs already up to date'
+  exit 0
+fi
+
+if [[ ${dryrun} -ne 0 ]]; then
+  echo "This would set nixpkgs to revision ${revision}"
+else
+  echo "Setting nixpkgs to revision ${revision}"
+  echo "${nixexpr}" >${nixpkgsfile}
+fi
+
+"$(dirname "$0")/nix-diff" "${revision}"
+#+end_src
+
+* nix-diff
+this code is written to nix-diff
+#+begin_src bash :tangle nix-diff
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p bash jq
+# shellcheck shell=bash
+
+# Usage: nix-diff [revision]
+# where revision is the full nixpkgs revision.
+
+# env.nix path
+ENV_NIX_PATH=$HOME/my-nix-config/env.nix
+
+set -euo pipefail
+
+declare -A cur
+
+query() {
+  nix-env --query --json "$@" | jq -r '.[] | .pname + " " + .version'
+}
+
+query_args=()
+
+if [[ $# -eq 1 ]]; then
+  query_args=('--file' "https://github.com/NixOS/nixpkgs/archive/$1.tar.gz")
+fi
+
+while read -r name version; do
+  cur[${name}]=${version}
+done < <(query "${query_args[@]}")
+
+ret=0
+while read -r name version; do
+  if [[ -n ${cur[${name}]:-} ]]; then
+    if [[ "${version}" != "${cur[${name}]}" ]]; then
+      echo -e "\033[33mM ${name} ${cur[${name}]} ➤ ${version}\033[0m"
+      ret=1
+    fi
+    unset "cur[${name}]"
+  else
+    echo -e "\033[32mA ${name} ${version}\033[0m"
+    ret=1
+  fi
+done < <(query -af "${ENV_NIX_PATH}")
+
+for name in "${!cur[@]}"; do
+  echo -e "\033[31mD ${name} ${cur[${name}]}\033[0m"
+  ret=1
+done
+
+if [[ ${ret} -ne 0 ]]; then
+  # Disable SC2016 (info): Expressions don't expand in single quotes, use double quotes for that.
+  # shellcheck disable=SC2016
+  echo 'Run `nix-env -irf "${ENV_NIX_PATH}"` to make these changes'
+fi
+
+exit "${ret}"
+
+#+end_src
