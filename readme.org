@@ -9,7 +9,6 @@ This is my nix configuration. From this org file, all the necessary nix config f
 
 ** Follow the normal nix [[https://nixos.org/download.html#nix-install-macos][installation for macosx]]
 ** Nix config uses three files:
-
 - =env.nix= define what packages will be installed.
 - =nix-update-nixpkgs= define script for updating nixpkgs version.
 - =nix-diff= define script to see the changes between current and previous version.
@@ -17,7 +16,7 @@ This is my nix configuration. From this org file, all the necessary nix config f
 All the config files are generated from this Org file
 
 ** Some fix/cleanup on macosx system
-*** After installing Nix, undo the modifications Nix made to the files in /etc.
+** After installing Nix, undo the modifications Nix made to the files in /etc.
 *** Ccreate a ~/.zshenv file with the following contents
 #+begin_src bash
 [[ -o login ]] && export PATH='/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin'
@@ -41,6 +40,7 @@ fi
 
 *** Put the per-shell configuration in ~/.zshrc. exported variables should be put in .zprofile
 *** Soft link the ~/.nix-defexpr/nixpkgs/default.nix to this [[file:./nixpkgs-default.nix][file]]
+
 
 * env.nix
 
@@ -77,6 +77,7 @@ in with pkgs; [
   prometheus
   restic
   ripgrep
+  sbt
   sourceHighlight
   texinfo
   tmux

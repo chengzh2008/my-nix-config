@@ -28,6 +28,7 @@ in with pkgs; [
   prometheus
   restic
   ripgrep
+  sbt
   sourceHighlight
   texinfo
   tmux
