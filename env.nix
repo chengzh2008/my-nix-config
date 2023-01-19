@@ -4,6 +4,7 @@ in with pkgs; [
   azure-cli
   awscli2
   cachix
+  coursier
   curl
   ctags
   direnv
@@ -12,8 +13,10 @@ in with pkgs; [
   etcd_3_5
   fd
   gd
-  google-cloud-sdk
+  # could not use something like `gcloud components install` https://cloud.google.com/sdk/
+  # google-cloud-sdk
   git
+  gnupg1
   graphviz
   grpc
   grpcurl
@@ -25,10 +28,10 @@ in with pkgs; [
   nginx
   nixFlakes
   pandoc
+  pass
   prometheus
   restic
   ripgrep
-  sbt
   sourceHighlight
   texinfo
   tmux

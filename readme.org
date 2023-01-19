@@ -53,6 +53,7 @@ in with pkgs; [
   azure-cli
   awscli2
   cachix
+  coursier
   curl
   ctags
   direnv
@@ -63,6 +64,7 @@ in with pkgs; [
   gd
   google-cloud-sdk
   git
+  gnupg1
   graphviz
   grpc
   grpcurl
@@ -74,10 +76,10 @@ in with pkgs; [
   nginx
   nixFlakes
   pandoc
+  pass
   prometheus
   restic
   ripgrep
-  sbt
   sourceHighlight
   texinfo
   tmux
