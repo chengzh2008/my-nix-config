@@ -4,7 +4,9 @@ in with pkgs; [
   azure-cli
   awscli2
   cachix
+  chez
   coursier
+  cmake
   curl
   ctags
   direnv
@@ -13,14 +15,15 @@ in with pkgs; [
   etcd_3_5
   fd
   gd
-  # could not use something like `gcloud components install` https://cloud.google.com/sdk/
-  # google-cloud-sdk
+  google-cloud-sdk
   git
   gnupg1
   graphviz
   grpc
   grpcurl
+  guile_3_0
   ihp-new
+  ispell
   jq
   kubectl
   kubernetes-helm-wrapped
@@ -30,6 +33,7 @@ in with pkgs; [
   pandoc
   pass
   prometheus
+  racket
   restic
   ripgrep
   sourceHighlight

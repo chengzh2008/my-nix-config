@@ -41,10 +41,14 @@ fi
 *** Put the per-shell configuration in ~/.zshrc. exported variables should be put in .zprofile
 *** Soft link the ~/.nix-defexpr/nixpkgs/default.nix to this [[file:./nixpkgs-default.nix][file]]
 
-
 * env.nix
 
 This code is written to the =env.nix= to include packages to install.
+After update this file, run
+#+begin_src  bash
+cd my-nix-config
+nix-env -irf env.nix
+#+end_src
 
 #+begin_src nix :tangle env.nix
 let
@@ -53,7 +57,9 @@ in with pkgs; [
   azure-cli
   awscli2
   cachix
+  chez
   coursier
+  cmake
   curl
   ctags
   direnv
@@ -68,7 +74,9 @@ in with pkgs; [
   graphviz
   grpc
   grpcurl
+  guile_3_0
   ihp-new
+  ispell
   jq
   kubectl
   kubernetes-helm-wrapped
@@ -78,6 +86,7 @@ in with pkgs; [
   pandoc
   pass
   prometheus
+  racket
   restic
   ripgrep
   sourceHighlight
