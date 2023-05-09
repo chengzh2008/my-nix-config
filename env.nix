@@ -36,6 +36,7 @@ in with pkgs; [
   racket
   restic
   ripgrep
+  ruby
   sourceHighlight
   texinfo
   tmux
