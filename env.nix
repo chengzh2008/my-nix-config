@@ -6,6 +6,7 @@ in with pkgs; [
   cachix
   chez
   coursier
+  clang-tools_9
   cmake
   curl
   ctags
@@ -18,11 +19,15 @@ in with pkgs; [
   google-cloud-sdk
   git
   gnupg1
+  gnuplot
   graphviz
   grpc
   grpcurl
+  glslang
   guile_3_0
+  haskellPackages.hoogle
   ihp-new
+  inetutils
   ispell
   jq
   kubectl
@@ -30,15 +35,22 @@ in with pkgs; [
   maven
   nginx
   nixFlakes
+  nixfmt
+  nodePackages_latest.stylelint
+  nodePackages_latest.js-beautify
   pandoc
   pass
   prometheus
   racket
   restic
+  rust-analyzer
+  shfmt
+  shellcheck
   ripgrep
   ruby
   sourceHighlight
   texinfo
+  terraform
   tmux
   tree
   tree-sitter
