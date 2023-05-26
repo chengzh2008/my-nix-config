@@ -1,6 +1,7 @@
 let
   pkgs = import <nixpkgs> {};
 in with pkgs; [
+  (callPackage ./myown/myown.nix {})
   azure-cli
   awscli2
   cachix
@@ -8,6 +9,7 @@ in with pkgs; [
   coursier
   clang-tools_9
   cmake
+  coreutils
   curl
   ctags
   direnv
@@ -32,6 +34,7 @@ in with pkgs; [
   jq
   kubectl
   kubernetes-helm-wrapped
+  # libtool // won't work
   maven
   nginx
   nixFlakes

@@ -54,6 +54,7 @@ nix-env -irf env.nix
 let
   pkgs = import <nixpkgs> {};
 in with pkgs; [
+  (callPackage ./myown/myown.nix {})
   azure-cli
   awscli2
   cachix
@@ -61,6 +62,7 @@ in with pkgs; [
   coursier
   clang-tools_9
   cmake
+  coreutils
   curl
   ctags
   direnv
@@ -85,6 +87,7 @@ in with pkgs; [
   jq
   kubectl
   kubernetes-helm-wrapped
+  # libtool // won't work
   maven
   nginx
   nixFlakes
@@ -245,3 +248,7 @@ nix-env --list-generations
 #+begin_src zsh
 nix-env --switch-generations <generation>
 #+end_src
+
+* how to create derivation for your own software and install it in the system
+see example in [[file:./myown]]
+detailed explanation and others ([[https://unix.stackexchange.com/questions/717168/how-to-package-my-software-in-nix-or-write-my-own-package-derivation-for-nixpkgs]])
