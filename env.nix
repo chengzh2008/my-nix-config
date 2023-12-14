@@ -1,7 +1,9 @@
 let
   pkgs = import <nixpkgs> {};
 in with pkgs; [
+  # build my own installation script
   (callPackage ./myown/myown.nix {})
+  # provided by nixpkgs
   azure-cli
   awscli2
   cachix
@@ -14,11 +16,12 @@ in with pkgs; [
   ctags
   direnv
   docbook5
+  eksctl
   expat
   etcd_3_5
   fd
   gd
-  google-cloud-sdk
+  #google-cloud-sdk
   git
   gnupg1
   gnuplot
@@ -32,8 +35,10 @@ in with pkgs; [
   inetutils
   ispell
   jq
+  kind
   kubectl
   kubernetes-helm-wrapped
+  kustomize
   # libtool // won't work
   maven
   nginx
@@ -58,6 +63,8 @@ in with pkgs; [
   tree
   tree-sitter
   utf8proc
+  vagrant
   wget
+  yarn
   zlib
 ]
