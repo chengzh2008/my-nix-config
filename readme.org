@@ -57,69 +57,54 @@ in with pkgs; [
   # build my own installation script
   (callPackage ./myown/myown.nix {})
   # provided by nixpkgs
-  azure-cli
-  awscli2
-  cachix
-  chez
-  coursier
-  clang-tools_9
-  cmake
-  coreutils
-  curl
-  ctags
-  direnv
-  docbook5
-  eksctl
-  expat
-  etcd_3_5
-  fd
-  gd
-  #google-cloud-sdk
-  git
-  gnupg1
-  gnuplot
-  graphviz
-  grpc
-  grpcurl
-  glslang
-  guile_3_0
-  haskellPackages.hoogle
-  ihp-new
-  inetutils
-  ispell
-  jq
-  kind
-  kubectl
-  kubernetes-helm-wrapped
-  kustomize
-  # libtool // won't work
-  maven
-  nginx
-  nixFlakes
-  nixfmt
-  nodePackages_latest.stylelint
-  nodePackages_latest.js-beautify
-  pandoc
-  pass
-  prometheus
-  racket
-  restic
-  rust-analyzer
-  shfmt
-  shellcheck
-  ripgrep
-  ruby
-  sourceHighlight
-  texinfo
-  terraform
-  tmux
-  tree
-  tree-sitter
-  utf8proc
-  vagrant
-  wget
-  yarn
-  zlib
+  # azure-cli
+  # awscli2
+  # cachix
+  # chez
+  # coursier
+  # clang-tools_9
+  # cmake
+  # coreutils
+  # curl
+  # ctags
+  # direnv
+  # docbook5
+  # eksctl
+  # expat
+  # etcd_3_5
+  # fd
+  # gd
+  # gnupg1
+  # gnuplot
+  # graphviz
+  # grpcurl
+  # glslang
+  # inetutils
+  # ispell
+  # kind
+  # kubectl
+  # kubernetes-helm-wrapped
+  # kustomize
+  # maven
+  # nixFlakes
+  # nixfmt
+  # pandoc
+  # pass
+  # prometheus
+  # restic
+  # rust-analyzer
+  # shfmt
+  # shellcheck
+  # ripgrep
+  # sourceHighlight
+  # texinfo
+  # tmux
+  # tree
+  # tree-sitter
+  # utf8proc
+  # wget
+  # yarn
+  # zlib
 ]
 #+end_src
 
